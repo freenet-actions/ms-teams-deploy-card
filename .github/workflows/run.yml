@@ -1,0 +1,46 @@
+name: Post some cards with edge branch code
+on: workflow_dispatch
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Post complete cards
+        uses: freenet-actions/ms-teams-deploy-card@edge
+        with:
+          github-token: ${{ github.token }}
+          webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
+          card-layout-start: complete
+          card-layout-exit: complete
+          show-on-start: true
+          show-on-exit: true
+          environment: testing
+          timezone: Europe/Berlin
+          enable-review-diffs-action: true
+          include-files: true
+          custom-facts: |
+            - name: Custom Fact
+              value: Custom Fact Value
+
+      - name: Post compact cards
+        uses: freenet-actions/ms-teams-deploy-card@edge
+        with:
+          github-token: ${{ github.token }}
+          webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
+          card-layout-start: compact
+          card-layout-exit: compact
+          show-on-start: true
+          show-on-exit: true
+          environment: testing
+          timezone: Europe/Berlin
+
+      - name: Post cozy cards
+        uses: freenet-actions/ms-teams-deploy-card@edge
+        with:
+          github-token: ${{ github.token }}
+          webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
+          card-layout-start: cozy
+          card-layout-exit: cozy
+          show-on-start: true
+          show-on-exit: true
+          environment: testing
+          timezone: Europe/Berlin

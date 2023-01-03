@@ -11,8 +11,8 @@ import { formatCompleteLayout } from "./layouts/complete";
 
 export function escapeMarkdownTokens(text: string) {
   return text
-    .replace(/\n\ {1,}/g, "\n ")
-    .replace(/\_/g, "\\_")
+    .replace(/\n +/g, "\n ")
+    .replace(/_/g, "\\_")
     .replace(/\*/g, "\\*")
     .replace(/\|/g, "\\|")
     .replace(/#/g, "\\#")
@@ -82,7 +82,7 @@ export async function formatAndNotify(
     webhookBody = formatCompleteLayout(commit, conclusion, elapsedSeconds);
   }
 
-  submitNotification(webhookBody);
+  await submitNotification(webhookBody);
 }
 
 export async function getWorkflowRunStatus() {
@@ -101,7 +101,7 @@ export async function getWorkflowRunStatus() {
   );
 
   let lastStep;
-  const stoppedStep = job?.steps.find(
+  const stoppedStep = job?.steps?.find(
     (step) =>
       step.conclusion === "failure" ||
       step.conclusion === "timed_out" ||
@@ -112,7 +112,7 @@ export async function getWorkflowRunStatus() {
   if (stoppedStep) {
     lastStep = stoppedStep;
   } else {
-    lastStep = job?.steps.reverse().find((step) => step.status === "completed" && step.conclusion !== 'skipped');
+    lastStep = job?.steps?.reverse().find((step) => step.status === "completed" && step.conclusion !== 'skipped');
   }
 
   const startTime = moment(job?.started_at, moment.ISO_8601);

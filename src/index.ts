@@ -1,13 +1,19 @@
-import { setFailed, getInput, info } from "@actions/core";
-import { formatAndNotify } from "./utils";
+import {getInput, info, setFailed} from "@actions/core";
+import {formatAndNotify} from "./utils";
 
-try {
-  const showCardOnStart = getInput(`show-on-start`).toLowerCase() == "true";
-  if (showCardOnStart) {
-    formatAndNotify("start");
-  } else {
-    info("Configured to not show card upon job start.");
+(async function() {
+  try {
+    const showCardOnStart = getInput(`show-on-start`).toLowerCase() == "true";
+    if (showCardOnStart) {
+      await formatAndNotify("start");
+    } else {
+      info("Configured to not show card upon job start.");
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      setFailed(error.message);
+    } else {
+      setFailed(<string>error);
+    }
   }
-} catch (error) {
-  setFailed(error.message);
-}
+})();
