@@ -2,7 +2,7 @@ import {getInput, info, setFailed} from "@actions/core";
 import {formatAndNotify, getWorkflowRunStatus} from "./utils";
 
 try {
-  // setTimeout to give time for Github API to show up the final conclusion
+  // setTimeout to give time for GitHub API to show up the final conclusion
   setTimeout(async () => {
     const showCardOnExit = getInput(`show-on-exit`).toLowerCase() === "true";
     const showCardOnFailure = getInput(`show-on-failure`).toLowerCase() === "true";
@@ -15,9 +15,9 @@ try {
       (showCardOnExit && !showCardOnFailure) ||
       (showCardOnFailure && workflowRunStatus.conclusion !== "success")
     ) {
-      formatAndNotify(
+      await formatAndNotify(
         "exit",
-        workflowRunStatus.conclusion,
+        workflowRunStatus.conclusion ?? undefined,
         workflowRunStatus.elapsedSeconds
       );
     } else {
@@ -25,5 +25,9 @@ try {
     }
   }, 2000);
 } catch (error) {
-  setFailed(error.message);
+  if (error instanceof Error) {
+    setFailed(error.message);
+  } else {
+    setFailed(<string>error);
+  }
 }

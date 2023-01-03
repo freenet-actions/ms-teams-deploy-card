@@ -1,21 +1,19 @@
-import { getInput, warning, info } from "@actions/core";
-import { OctokitResponse, ReposGetCommitResponseData } from "@octokit/types";
+import {getInput, info, warning} from "@actions/core";
+import {GetResponseTypeFromEndpointMethod} from "@octokit/types";
 import yaml from "yaml";
 
-import { escapeMarkdownTokens, renderActions } from "../utils";
-import { Fact } from "../models";
-import { formatCozyLayout } from "./cozy";
+import {escapeMarkdownTokens, renderActions} from "../utils";
+import {Fact} from "../models";
+import {formatCozyLayout} from "./cozy";
+import {Octokit} from '@octokit/rest';
+
+const octokit = new Octokit();
 
 export function formatFilesToDisplay(
   files: {
-    additions: number;
     blob_url: string;
     changes: number;
-    deletions: number;
     filename: string;
-    patch: string;
-    raw_url: string;
-    status: string;
   }[],
   allowedLength: number,
   htmlUrl: string
@@ -29,7 +27,7 @@ export function formatFilesToDisplay(
         } changes)`
     );
 
-  let filesToDisplay = "";
+  let filesToDisplay: string;
   if (files.length === 0) {
     filesToDisplay = "*No files changed.*";
   } else {
@@ -44,7 +42,7 @@ export function formatFilesToDisplay(
 }
 
 export function formatCompleteLayout(
-  commit: OctokitResponse<ReposGetCommitResponseData>,
+  commit: GetResponseTypeFromEndpointMethod<typeof octokit.repos.getCommit>,
   conclusion: string,
   elapsedSeconds?: number
 ) {
@@ -111,7 +109,7 @@ export function formatCompleteLayout(
   }
 
   // Set list of files
-  if (getInput("include-files").toLowerCase() === "true") {
+  if (getInput("include-files").toLowerCase() === "true" && commit.data.files !== undefined) {
     const allowedFileLen = getInput("allowed-file-len").toLowerCase();
     const allowedFileLenParsed = parseInt(
       allowedFileLen === "" ? "7" : allowedFileLen

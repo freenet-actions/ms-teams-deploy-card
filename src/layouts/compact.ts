@@ -1,11 +1,14 @@
-import { getInput } from "@actions/core";
-import { OctokitResponse, ReposGetCommitResponseData } from "@octokit/types";
+import {getInput} from "@actions/core";
+import {GetResponseTypeFromEndpointMethod} from "@octokit/types";
 
-import { WebhookBody } from "../models";
-import { CONCLUSION_THEMES } from "../constants";
+import {WebhookBody} from "../models";
+import {CONCLUSION_THEMES} from "../constants";
+import {Octokit} from '@octokit/rest';
+
+const octokit = new Octokit();
 
 export function formatCompactLayout(
-  commit: OctokitResponse<ReposGetCommitResponseData>,
+  commit: GetResponseTypeFromEndpointMethod<typeof octokit.repos.getCommit>,
   conclusion: string,
   elapsedSeconds?: number
 ) {
@@ -30,10 +33,12 @@ export function formatCompactLayout(
   // Set themeColor
   webhookBody.themeColor = CONCLUSION_THEMES[conclusion] || "957DAD";
 
-  webhookBody.text =
-    `${labels} &nbsp; ${process.env.GITHUB_WORKFLOW} [#${process.env.GITHUB_RUN_NUMBER}](${runLink}) ` +
-    `(${branch}) on [${process.env.GITHUB_REPOSITORY}](${repoUrl}) ` +
-    `by [@${author.login}](${author.html_url})`;
+  let text = `${labels} &nbsp; ${process.env.GITHUB_WORKFLOW} [#${process.env.GITHUB_RUN_NUMBER}](${runLink}) ` +
+    `(${branch}) on [${process.env.GITHUB_REPOSITORY}](${repoUrl}) `;
+  if (author) {
+    text += `by [@${author.login}](${author.html_url})`;
+  }
+  webhookBody.text = text;
 
   return webhookBody;
 }

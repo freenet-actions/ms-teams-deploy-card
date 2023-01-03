@@ -1,4 +1,5 @@
 export class PotentialAction {
+  // noinspection HttpUrlsUsage
   "@context": string = "http://schema.org";
   "@type": string = "ViewAction";
   name: string = "";
