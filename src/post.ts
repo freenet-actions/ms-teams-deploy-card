@@ -9,11 +9,16 @@ try {
     const ignoreCancel = getInput("ignore-cancel").toLowerCase() === "true";
 
     const workflowRunStatus = await getWorkflowRunStatus();
+    info('Run conclusion: ' + workflowRunStatus.conclusion);
+
     if (workflowRunStatus.conclusion === 'cancelled' && ignoreCancel) {
       info('Configured to not show card upon job cancel.')
     } else if (
       (showCardOnExit && !showCardOnFailure) ||
-      (showCardOnFailure && workflowRunStatus.conclusion !== "success")
+      (showCardOnFailure
+        && workflowRunStatus.conclusion !== undefined
+        && workflowRunStatus.conclusion !== "success"
+        && workflowRunStatus.conclusion !== "in_progress")
     ) {
       await formatAndNotify(
         "exit",
