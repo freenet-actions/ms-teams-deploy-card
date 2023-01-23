@@ -9,7 +9,7 @@
   "private": false,
   "dependencies": {
     "@actions/core": "^1.2.4",
-    "@octokit/rest": "^19.0.5",
+    "@octokit/rest": "^19.0.7",
     "@octokit/types": "^8.2.0",
     "moment-timezone": "^0.5.40",
     "node-fetch": "^3.3.0",
