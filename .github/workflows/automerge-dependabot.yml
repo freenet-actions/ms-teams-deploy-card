@@ -50,7 +50,7 @@ jobs:
           yarn install
           yarn ncc
           
-          git add node_modules dist
+          git add dist
           git commit --amend --no-edit
           git push
 
