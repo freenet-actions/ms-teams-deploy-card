@@ -27,7 +27,7 @@ jobs:
         if: steps.metadata.outputs.update-type == 'version-update:semver-minor' || steps.metadata.outputs.update-type == 'version-update:semver-patch'
         uses: actions/checkout@v3
         with:
-          ref: master
+          ref: ${{ github.head_ref }}
           fetch-depth: 0
 
       - name: setup node
@@ -46,7 +46,6 @@ jobs:
           git config user.email "Sebastian.Goral@freenet.ag"
           git config user.name "Automatic dependency updates"
           
-          git cherry-pick origin/${{ github.head_ref }}
           yarn install
           yarn ncc
           
@@ -54,14 +53,6 @@ jobs:
           git commit --amend --no-edit
           git push
 
-      - name: Enable merge job
-        id: enable-merge
+      - name: Allow merge
         if: steps.update.conclusion == 'success'
-        run: echo "enable=true" >> $GITHUB_OUTPUT
-    outputs:
-      run_merge: ${{ steps.enable-merge.outputs.enable }}
-
-  publish:
-    needs: [merge]
-    if: needs.merge.outputs.run_merge == 'true'
-    uses: ./.github/workflows/publish.yaml
+        run: gh pr comment '${{ github.event.pull_request.id }}' --body '@dependabot squash and merge'
