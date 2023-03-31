@@ -11,7 +11,7 @@
     "@actions/core": "^1.2.4",
     "@octokit/rest": "^19.0.7",
     "@octokit/types": "^9.0.0",
-    "moment-timezone": "^0.5.42",
+    "moment-timezone": "^0.5.43",
     "node-fetch": "^3.3.1",
     "yaml": "^2.2.1"
   },
