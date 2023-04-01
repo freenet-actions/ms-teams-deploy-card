@@ -4,18 +4,16 @@ on:
     types:
       - opened
       - reopened
-      - edited
 
 permissions:
   contents: write
   pull-requests: write
-  actions: write
 
 jobs:
   merge:
     runs-on: ubuntu-latest
     concurrency: dependabot-automerge
-    if: ${{ github.actor == 'dependabot[bot]' }}
+    if: github.actor == 'dependabot[bot]'
     steps:
       - name: Fetch dependabot metadata
         id: metadata
@@ -52,8 +50,10 @@ jobs:
           
           git add dist
           git commit --amend --no-edit
-          git push
+          git push --force
 
       - name: Allow merge
         if: steps.update.conclusion == 'success'
-        run: gh pr comment '${{ github.event.pull_request.id }}' --body '@dependabot squash and merge'
+        run: gh pr merge '${{ github.event.pull_request.number }}' --squash
+        env:
+          GH_TOKEN: ${{ github.token }}
