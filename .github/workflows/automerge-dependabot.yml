@@ -52,8 +52,13 @@ jobs:
           git commit --amend --no-edit
           git push --force
 
-      - name: Allow merge
+      - name: Wait for pull request to update
+        id: wait
         if: steps.update.conclusion == 'success'
+        run: sleep 5
+
+      - name: Merge
+        if: steps.wait.conclusion == 'success'
         run: gh pr merge '${{ github.event.pull_request.number }}' --squash
         env:
           GH_TOKEN: ${{ github.token }}
