@@ -39,6 +39,9 @@ jobs:
         run: |
           set -euo pipefail
           
+          git config user.email "Sebastian.Goral@freenet.ag"
+          git config user.name "Automatic dependency updates"
+
           yarn install
           yarn ncc
           
