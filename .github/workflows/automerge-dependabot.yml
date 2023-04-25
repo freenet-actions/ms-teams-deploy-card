@@ -55,7 +55,20 @@ jobs:
         run: sleep 5
 
       - name: Merge
+        id: merge
         if: steps.wait.conclusion == 'success'
         run: gh pr merge '${{ github.event.pull_request.number }}' --squash
         env:
           GH_TOKEN: ${{ secrets.DEPENDENCY_UPDATES_PAT }}
+
+      - name: Enable publish job
+        id: enable-publish
+        if: steps.merge.conclusion == 'success'
+        run: echo "enable=true" >> $GITHUB_OUTPUT
+    outputs:
+      run_publish: ${{ steps.enable-publish.outputs.enable }}
+
+  publish:
+    needs: [merge]
+    if: needs.merge.outputs.run_publish == 'true'
+    uses: ./.github/workflows/publish.yaml
