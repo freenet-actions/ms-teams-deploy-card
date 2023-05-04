@@ -18,7 +18,7 @@ jobs:
         id: metadata
         uses: dependabot/fetch-metadata@v1
         with:
-          github-token: ${{ secrets.DEPENDENCY_UPDATES_PAT }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Checkout
         id: checkout
@@ -27,7 +27,7 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
-          token: ${{ secrets.DEPENDENCY_UPDATES_PAT }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: setup node
         id: node-setup
@@ -62,7 +62,7 @@ jobs:
         if: steps.wait.conclusion == 'success'
         run: gh pr merge '${{ github.event.pull_request.number }}' --squash
         env:
-          GH_TOKEN: ${{ secrets.DEPENDENCY_UPDATES_PAT }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Enable publish job
         id: enable-publish
