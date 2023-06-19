@@ -23,5 +23,8 @@
   },
   "scripts": {
     "ncc": "ncc build src/index.ts -m -o dist/main && ncc build src/post.ts -m -o dist/post"
+  },
+  "engines": {
+    "node": "18"
   }
 }
