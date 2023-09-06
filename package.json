@@ -18,7 +18,7 @@
   "devDependencies": {
     "@types/moment-timezone": "^0.5.13",
     "@types/node-fetch": "^2.6.4",
-    "@vercel/ncc": "^0.36.1",
+    "@vercel/ncc": "^0.37.0",
     "typescript": "^5.2.2"
   },
   "scripts": {
