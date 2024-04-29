@@ -116,7 +116,7 @@ export async function getWorkflowRunStatus() {
     if (job.steps) {
       for (let step of job.steps) {
         // check if current step still running
-        if (step.completed_at !== null) {
+        if (step.status === 'completed' && step.completed_at !== null) {
           lastStep = step;
           jobStartDate = job.started_at;
           // Some step/job has failed. Get out from here.
