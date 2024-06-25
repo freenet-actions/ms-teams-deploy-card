@@ -74,7 +74,7 @@ jobs:
 
 #### <a name="note-matrix-jobs"></a>Note when using matrix jobs
 The GitHub API makes it difficult to identify a specific matrix job from an action.
-To properly pass the matrix job status to action, add the following step to the end of your workflow file:
+To properly pass the matrix job status to the action, add the following step to the end of your workflow file:
 
 ```yaml
       - run: echo "ms_teams_notification_job_status=${{ job.status }}" >> "$GITHUB_ENV"
