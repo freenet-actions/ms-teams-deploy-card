@@ -135,9 +135,16 @@ export async function getWorkflowRunStatus() {
   const startTime = moment(jobStartDate, moment.ISO_8601);
   const endTime = moment(lastStep?.completed_at, moment.ISO_8601);
 
+  let conclusion;
+  if (process.env.ms_teams_notification_job_status) {
+    conclusion = process.env.ms_teams_notification_job_status;
+  } else {
+    conclusion = lastStep?.conclusion;
+  }
+
   return {
     elapsedSeconds: endTime.diff(startTime, "seconds"),
-    conclusion: lastStep?.conclusion,
+    conclusion: conclusion
   };
 }
 
