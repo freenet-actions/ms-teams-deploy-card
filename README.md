@@ -6,6 +6,7 @@ This is a fork of https://github.com/toko-bifrost/ms-teams-deploy-card with the 
 * Fix wrong input names in readme
 * Write the branch instead of the commit hash in the Teams card.
 * Add option to ignore failures caused by cancelling the workflow.
+* Properly report matrix job status (see [Note when using matrix jobs](#note-matrix-jobs)).
 
 ### Screenshots of the modified cards:
 
@@ -70,6 +71,16 @@ jobs:
           github-token: ${{ github.token }}
           webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
 ```
+
+#### <a name="note-matrix-jobs"></a>Note when using matrix jobs
+The GitHub API makes it difficult to identify a specific matrix job from an action.
+To properly pass the matrix job status to action, add the following step to the end of your workflow file:
+
+```yaml
+      - run: echo "ms_teams_notification_job_status=${{ job.status }}" >> "$GITHUB_ENV"
+        if: always()
+```
+The notification action will pick up the environment variable and use it to determine the status of the matrix job.
 
 ### Configurations
 
