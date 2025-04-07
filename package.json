@@ -19,7 +19,7 @@
     "@types/moment-timezone": "^0.5.13",
     "@types/node-fetch": "^2.6.12",
     "@vercel/ncc": "^0.38.3",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.3"
   },
   "scripts": {
     "ncc": "ncc build src/index.ts -m -o dist/main && ncc build src/post.ts -m -o dist/post"
