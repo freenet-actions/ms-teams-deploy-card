@@ -13,7 +13,7 @@
     "@octokit/types": "^14.0.0",
     "moment-timezone": "^0.5.48",
     "node-fetch": "^3.3.2",
-    "yaml": "^2.7.1"
+    "yaml": "^2.8.0"
   },
   "devDependencies": {
     "@types/moment-timezone": "^0.5.13",
