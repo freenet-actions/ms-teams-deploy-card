@@ -66,7 +66,7 @@ jobs:
             }
             
             if( '${{ inputs.version }}' != 'auto') {
-              newVersion = ${{ inputs.version }};
+              newVersion = '${{ inputs.version }}';
             }
             
             console.log(newVersion);
