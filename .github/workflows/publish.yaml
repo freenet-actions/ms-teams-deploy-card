@@ -1,6 +1,11 @@
 name: Publish version
 on:
   workflow_dispatch:
+    inputs:
+      version:
+        required: false
+        description: 'Version (optional), e.g. v3.0.82'
+        default: 'auto'
   push:
     branches:
       - master
@@ -56,8 +61,15 @@ jobs:
               const currentVersion = refs[refs.length - 1].ref;
               const patchVersion = Number(currentVersion.split('.')[2]);
               newVersion += (patchVersion + 1);
+              console.log(refs);
               updateMajorTag = true;
             }
+            
+            if( '${{ inputs.version }}' != 'auto') {
+              newVersion = ${{ inputs.version }};
+            }
+            
+            console.log(newVersion);
             
             // Create the patch tag
             await github.rest.git.createRef({
