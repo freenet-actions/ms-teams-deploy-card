@@ -1,10 +1,10 @@
 {
   "name": "ms-teams-deploy-card",
-  "version": "3.0",
+  "version": "4.0.0",
   "description": "Microsoft Teams Deploy Card",
   "main": "index.ts",
   "repository": "https://github.com/freenet-actions/ms-teams-deploy-card",
-  "author": "Aldwyn Cabarrubias",
+  "author": "Aldwyn Cabarrubias, freenet",
   "license": "MIT",
   "private": false,
   "dependencies": {
@@ -25,6 +25,7 @@
     "ncc": "ncc build src/index.ts -m -o dist/main && ncc build src/post.ts -m -o dist/post"
   },
   "engines": {
-    "node": "20"
+    "node": ">=24.15",
+	"npm": ">=11.12"
   }
 }

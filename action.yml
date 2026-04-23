@@ -1,5 +1,5 @@
 name: Microsoft Teams Deploy Card
-author: Project Toko Bifrost & freenet-actions
+author: Project Toko Bifrost & freenet
 description: Notify your Teams channel with a beautiful, comprehensive deployment card
 branding:
   icon: bell
@@ -78,6 +78,6 @@ inputs:
     default: 7
 
 runs:
-  using: node20
+  using: node24
   main: dist/main/index.js
   post: dist/post/index.js

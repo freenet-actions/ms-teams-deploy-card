@@ -29,7 +29,7 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: setup node
+      - name: Setup node.js
         id: node-setup
         if: steps.checkout.conclusion == 'success'
         uses: actions/setup-node@v6.3.0
@@ -45,8 +45,8 @@ jobs:
           git config user.email "Sebastian.Goral@freenet.ag"
           git config user.name "Automatic dependency updates"
 
-          yarn install
-          yarn ncc
+          npm ci --ignore-scripts
+          npm run ncc
           
           git add dist
           git commit --amend --no-edit
