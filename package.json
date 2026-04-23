@@ -10,7 +10,7 @@
   "dependencies": {
     "@actions/core": "1.11.1",
     "@octokit/rest": "22.0.1",
-    "@octokit/types": "14.1.0",
+    "@octokit/types": "16.0.0",
     "moment-timezone": "0.6.1",
     "node-fetch": "3.3.2",
     "yaml": "2.8.3"
