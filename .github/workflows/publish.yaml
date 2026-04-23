@@ -6,14 +6,15 @@ on:
         required: false
         description: 'Version (optional), e.g. v3.0.82'
         default: 'auto'
-  push:
-    branches:
-      - master
-    paths-ignore:
-    - '.github/**'
-    - 'README.md'
-    - 'package.json'
-    - 'package-lock.json'
+  # Disabled for now until auto version publishing is properly fixed
+  #push:
+  #  branches:
+  #    - master
+  #  paths-ignore:
+  #  - '.github/**'
+  #  - 'README.md'
+  #  - 'package.json'
+  #  - 'package-lock.json'
 
 concurrency: publish
 jobs:
